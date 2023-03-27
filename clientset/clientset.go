@@ -12,8 +12,11 @@ import (
 
 func ClientsetFun() {
 
+	// Read kubernetes configurations and parse it.
 	kubeconfig := flag.String("kubeconfig", "/Users/even/tmp/config", "kubeconfig file")
 	flag.Parse()
+
+	// According kubernetes configuration to build rest client config.
 	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 	if err != nil {
 		panic(err.Error())
@@ -27,6 +30,7 @@ func ClientsetFun() {
 		panic(err.Error())
 	}
 
+	// Use the client-go library kubernetes clientset to get/create k8s resources.
 	podList, err := clientset.CoreV1().Pods("").List(context.Background(), metav1.ListOptions{})
 	if err != nil {
 		panic(err.Error())

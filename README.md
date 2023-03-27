@@ -12,3 +12,4 @@ git clone https://github.com/kubernetes/code-generator.git
 2. clientset
 3. informers
 4. lister
+

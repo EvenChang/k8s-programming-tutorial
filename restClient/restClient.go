@@ -17,17 +17,16 @@ func RestClientFunc() {
 	kubeconfig := flag.String("kubeconfig", "/Users/even/tmp/config", "kubeconfig file")
 	flag.Parse()
 
-	config, err := rest.InClusterConfig()
+	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 	if err != nil {
-		config, err = clientcmd.BuildConfigFromFlags("", *kubeconfig)
-		if err != nil {
-			panic(err.Error())
-		}
+		panic(err.Error())
 	}
 
 	// core api -> api , CRD api -> apis, page40
 	config.APIPath = "apis"
 	config.GroupVersion = &schema.GroupVersion{Group: "k8s.ovn.org", Version: "v1"}
+	// NegotiatedSerializer is used for obtaining encoders and decoders for multiple
+	// supported media types.
 	config.NegotiatedSerializer = scheme.Codecs
 
 	fmt.Println("Init RESTClient.")
@@ -82,8 +81,13 @@ func RestClientFunc() {
 		Into(vpcNetworkResult); err != nil {
 		panic(err)
 	}
+	fmt.Println("Print all vpcnetworks resources:")
+	for _, item := range result.Items {
+		fmt.Printf("Name: %s\n", item.Name)
+	}
 
-	fmt.Println("Print all listed pods.")
+	fmt.Println("---Added new VPC---")
 	fmt.Println("APIVersion: ", vpcNetworkResult.APIVersion)
 	fmt.Println("Kind: ", vpcNetworkResult.Kind)
+	fmt.Println("Name: ", vpcNetworkResult.Name)
 }

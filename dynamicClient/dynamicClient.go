@@ -8,7 +8,6 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
-	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 )
 
@@ -17,12 +16,9 @@ func DynamicClientFunc() {
 	kubeconfig := flag.String("kubeconfig", "/Users/even/tmp/config", "kubeconfig file")
 	flag.Parse()
 
-	config, err := rest.InClusterConfig()
+	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 	if err != nil {
-		config, err = clientcmd.BuildConfigFromFlags("", *kubeconfig)
-		if err != nil {
-			panic(err.Error())
-		}
+		panic(err.Error())
 	}
 
 	dynamicClient, err := dynamic.NewForConfig(config)

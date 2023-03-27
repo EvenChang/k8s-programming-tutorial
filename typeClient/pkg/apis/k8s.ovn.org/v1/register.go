@@ -1,4 +1,4 @@
-package v1alpha1
+package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -8,11 +8,12 @@ import (
 
 var SchemeGroupVersion = schema.GroupVersion{
 	Group:   "k8s.ovn.org",
-	Version: "v1alpha1",
+	Version: "v1",
 }
 
 var (
 	SchemeBuilder runtime.SchemeBuilder
+	AddToScheme   = SchemeBuilder.AddToScheme
 )
 
 func init() {
