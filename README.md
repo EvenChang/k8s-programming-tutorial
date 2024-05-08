@@ -1,5 +1,5 @@
 # k8s-programming-tutorial
-Provide k8s basic programming and fouce on client-go library.
+Provide k8s basic programming and foucs on client-go library.
 
 ## Download code-generator repository.
 git clone https://github.com/kubernetes/code-generator.git
